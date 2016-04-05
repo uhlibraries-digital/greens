@@ -1,6 +1,6 @@
 # Greens
 
-Greens is a rails application this is used as a ARK minter and resolver
+Greens is a rails application that is used as a ARK minter and resolver
 
 ## Installation
 
