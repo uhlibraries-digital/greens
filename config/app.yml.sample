@@ -1,0 +1,17 @@
+##
+# Application configuration settings
+#
+development:
+  noid_template: ".reeddeeddk"
+  naan: ""
+  api-key: ""
+
+production:
+  noid_template: ".reeddeeddk"
+  naan: ""
+  api-key: ""
+
+test:
+  noid_template: ".reeddeeddk"
+  naan: ""
+  api-key: ""

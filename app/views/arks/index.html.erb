@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Who</th>
+      <th>What</th>
+      <th>When</th>
+      <th>Where</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ark.each do | a | %>
+    <tr>
+      <td><a href="/ark:/<%= a.identifier %>?"><%= a.identifier %></a></td>
+      <td><%= a.who %></td>
+      <td><%= a.what %></td>
+      <td><%= a.when %></td>
+      <td><%= link_to a.where, a.where if !a.where.blank? %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
