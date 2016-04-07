@@ -94,7 +94,7 @@ class Api::V1::ArksController < Api::V1::BaseController
 
     def read_state
       begin
-        fp = File.open(File.join(Rails.root, 'tmp', 'noid_state'), 'a+b', 0644)
+        fp = File.open(APP_CONFIG["noid_state_file"], 'a+b', 0644)
         state = Marshal.load(fp.read)
       rescue TypeError, ArgumentError
         state = { template: APP_CONFIG["noid_template"] }
@@ -104,7 +104,7 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
 
     def write_state(state)
-      fp = File.open(File.join(Rails.root, 'tmp', 'noid_state'), 'wb', 0644)
+      fp = File.open(APP_CONFIG["noid_state_file"], 'wb', 0644)
       fp.write(Marshal.dump(state))
       fp.close
     end

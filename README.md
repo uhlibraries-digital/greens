@@ -26,7 +26,7 @@ Greens can be used as a Name Mapping Authority Hostport (NMAH) by having a URL i
 
 ### Minting/Updating Identifiers
 
-Greens uses an API to mint, update, and destroy ARK identifiers.
+Greens uses an REST API to mint, update, and destroy ARK identifiers.
 
 To authenticate with these API calls, you will need to provide a application key which should be provided in a normal HTTP header called `api-key`. This key is set in the `config/app.yml` file.
 
@@ -76,7 +76,7 @@ Returns the updated object erc
 
 #### Destroy
 
-/api/vi/id/ark:/{identifier}
+/api/v1/id/ark:/{identifier}
 
 Method: DELETE
 
