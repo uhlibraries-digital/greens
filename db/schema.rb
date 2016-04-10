@@ -23,6 +23,6 @@ ActiveRecord::Schema.define(version: 20160404154758) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "arks", ["identifier"], name: "index_arks_on_identifier", unique: true
+  add_index "arks", ["identifier"], name: "index_arks_on_identifier", unique: true, using: :btree
 
 end

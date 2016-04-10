@@ -12,7 +12,7 @@ class ArksController < ApplicationController
   end
 
   def index
-    @ark = Ark.all
+    @ark = Ark.paginate(:page => params[:page], :per_page => 100)
   end
 
   def home
