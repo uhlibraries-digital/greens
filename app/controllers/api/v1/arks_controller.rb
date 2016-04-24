@@ -41,7 +41,7 @@ class Api::V1::ArksController < Api::V1::BaseController
 
   def mint
     minter = Noid::Minter.new(read_state)
-    id = APP_CONFIG["naan"] + "/" + minter.mint
+    id = "ark:/" + APP_CONFIG["naan"] + "/" + minter.mint
     write_state minter.dump
 
     ark = Ark.new({ :identifier => id })
@@ -50,7 +50,7 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
     
     if ark.save
-      render(json: { identifier: id }.to_json)
+      render(json: { id: id }.to_json)
     else
       api_error(status: 500, errors: 'Unable to save new identifier' )
     end

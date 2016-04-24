@@ -4,14 +4,14 @@ Rails.application.routes.draw do
 
   get 'arks' => 'arks#index'
   get 'ids' => 'arks#index'
-  match 'ark:/(:id)' => 'arks#show', :constraints => { :id => /.*/ }, via: :get, as: "ark_show"
+  match '(:id)' => 'arks#show', :constraints => { :id => /ark:\/.*/ }, via: :get, as: "ark_show"
 
   namespace :api do
     namespace :v1 do
       match 'arks/mint' => 'arks#mint', via: [:get, :post]
-      match 'id/ark:/(:id)' => 'arks#show', :constraints => { :id => /.*/ }, via: :get, as: "ark"
-      match 'id/ark:/(:id)' => 'arks#update', :constraints => { :id => /.*/ }, via: :put
-      match 'id/ark:/(:id)' => 'arks#destroy', :constraints => { :id => /.*/ }, via: :delete
+      match 'id/(:id)' => 'arks#show', :constraints => { :id => /ark:\/.*/ }, via: :get, as: "ark"
+      match 'id/(:id)' => 'arks#update', :constraints => { :id => /ark:\/.*/ }, via: :put
+      match 'id/(:id)' => 'arks#destroy', :constraints => { :id => /ark:\/.*/ }, via: :delete
     end
   end
 
