@@ -1,7 +1,7 @@
 class CreateArks < ActiveRecord::Migration
   def change
     create_table :arks do |t|
-      t.string 'identifier', :limit => 50
+      t.string 'identifier', :limit => 50, :null => false
       t.string 'who', :limit => 1000
       t.string 'what', :limit => 1000
       t.string 'when', :limit => 30
