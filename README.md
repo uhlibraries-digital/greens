@@ -50,7 +50,7 @@ Returns the minted identifier
 
 Method: POST
 
-Returns the minted identifier
+Returns the minted ark identifier
 
 | Parameter | Description |
 | --------- | ----------- |
@@ -61,7 +61,7 @@ Returns the minted identifier
 
 #### Update
 
-/api/v1/id/ark:/{identifier}
+/api/v1/id/{ark identifier}
 
 Method : PUT
 
@@ -76,7 +76,7 @@ Returns the updated object erc
 
 #### Destroy
 
-/api/v1/id/ark:/{identifier}
+/api/v1/id/{ark identifier}
 
 Method: DELETE
 
