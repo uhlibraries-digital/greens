@@ -40,7 +40,7 @@ class Api::V1::ArksController < Api::V1::BaseController
   before_action :authenticate_request!, only: [:mint, :update, :destroy]
 
   def mint
-    minter = Noid::Minter.new(read_state)
+    minter = Noid::Minter.new(read_state(params[:prefix]))
     id = "ark:/" + APP_CONFIG["naan"] + "/" + minter.mint
     write_state minter.dump
 
@@ -92,19 +92,21 @@ class Api::V1::ArksController < Api::V1::BaseController
       params.permit(:where, :what, :when, :who)
     end
 
-    def read_state
+    def read_state(prefix = '')
       begin
-        fp = File.open(APP_CONFIG["noid_state_file"], 'a+b', 0644)
+        fp = File.open(APP_CONFIG["noid_state_file"] + '_' + prefix.to_s, 'a+b', 0644)
         state = Marshal.load(fp.read)
       rescue TypeError, ArgumentError
-        state = { template: APP_CONFIG["noid_template"] }
+        state = { template: prefix + APP_CONFIG["noid_template"] }
       end
       fp.close
+      puts state
       return state
     end
 
     def write_state(state)
-      fp = File.open(APP_CONFIG["noid_state_file"], 'wb', 0644)
+      prefix = /(.*)\.[rszedk]+/.match(state[:template])[1]
+      fp = File.open(APP_CONFIG["noid_state_file"] + '_' + prefix.to_s, 'wb', 0644)
       fp.write(Marshal.dump(state))
       fp.close
     end

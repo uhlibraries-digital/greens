@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      match 'arks/mint' => 'arks#mint', via: [:get, :post]
+      match 'arks/mint(/:prefix)' => 'arks#mint', via: [:get, :post]
       match 'id/(:id)' => 'arks#show', :constraints => { :id => /ark:\/.*/ }, via: :get, as: "ark"
       match 'id/(:id)' => 'arks#update', :constraints => { :id => /ark:\/.*/ }, via: :put
       match 'id/(:id)' => 'arks#destroy', :constraints => { :id => /ark:\/.*/ }, via: :delete

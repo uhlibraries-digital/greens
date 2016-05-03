@@ -40,17 +40,17 @@ HTTP status code returned by a successfull API will usually be 200 OK. All succe
 
 #### Mint
 
-/api/v1/arks/mint
+/api/v1/arks/mint(/prefix)
 
 Method: GET
 
-Returns the minted identifier
+Returns the minted identifier. /prefix is optional and allows every minted identifier to begin with the prefix string.
 
-/api/v1/arks/mint
+/api/v1/arks/mint(/prefix)
 
 Method: POST
 
-Returns the minted ark identifier
+Returns the minted ark identifier. /prefix is optional and allows every minted identifier to begin with the prefix string.
 
 | Parameter | Description |
 | --------- | ----------- |
