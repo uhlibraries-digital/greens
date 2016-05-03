@@ -100,7 +100,6 @@ class Api::V1::ArksController < Api::V1::BaseController
         state = { template: prefix.to_s + APP_CONFIG["noid_template"] }
       end
       fp.close
-      puts state
       return state
     end
 
