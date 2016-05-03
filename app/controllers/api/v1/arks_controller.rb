@@ -97,7 +97,7 @@ class Api::V1::ArksController < Api::V1::BaseController
         fp = File.open(APP_CONFIG["noid_state_file"] + '_' + prefix.to_s, 'a+b', 0644)
         state = Marshal.load(fp.read)
       rescue TypeError, ArgumentError
-        state = { template: prefix + APP_CONFIG["noid_template"] }
+        state = { template: prefix.to_s + APP_CONFIG["noid_template"] }
       end
       fp.close
       puts state
