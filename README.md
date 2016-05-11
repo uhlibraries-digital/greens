@@ -24,6 +24,10 @@ Once setup you can continue to run the rails server according to your system env
 
 Greens can be used as a Name Mapping Authority Hostport (NMAH) by having a URL in the format of `http://example.com/ark:/12345/57x43/`. A request for a metadata erc record describing the object identified can be done by adding a '?' to the end of the request string `http://example.com/ark:/12345/57x43/?`. You can view all the minted identifiers by going to `http://example.com/ids`.
 
+## Suffix Passthrough
+
+Suffix Passthrough allows you to add any suffix to the identifier which will be added to the end of the identifiers `erc.where` url. For example having the ARK `ark:/12345/57x43` with `erc.where` equal to `http://objects.com` will result in the ARK URL `http://example.com/ark:/12345/57x43/object4/item2/thumbnail.jpg` redirecting to `http://objects.com/object4/item2/thumbnail.jpg`.
+
 ### Minting/Updating Identifiers
 
 Greens uses an REST API to mint, update, and destroy ARK identifiers.
