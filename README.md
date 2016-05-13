@@ -1,5 +1,8 @@
 # Greens
 
+[![Code Climate](https://codeclimate.com/github/uhlibraries-digital/greens/badges/gpa.svg)](https://codeclimate.com/github/uhlibraries-digital/greens)
+[![Build Status](https://travis-ci.org/uhlibraries-digital/greens.svg?branch=master)](https://travis-ci.org/uhlibraries-digital/greens)
+
 Greens is a rails application that is used as a ARK minter and resolver
 
 ## Installation
