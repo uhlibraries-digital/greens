@@ -1,7 +1,7 @@
 class ArksController < ApplicationController
 
   def show
-    parts = params[:id].match(/(ark:\/[^\/]*\/[^\/]*)(\/.*)/)
+    parts = params[:id].match(/(ark:\/[^\/]*\/[^\/]*)([\/\.].*)/)
     if parts.nil?
       id = params[:id]
       suffix = ''
