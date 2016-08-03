@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'noid'
 gem 'kaminari'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.9.0'
 
 gem 'mysql2'
 gem 'will_paginate'
