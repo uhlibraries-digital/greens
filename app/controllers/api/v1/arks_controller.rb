@@ -40,6 +40,10 @@ class Api::V1::ArksController < Api::V1::BaseController
   before_action :authenticate_request!, only: [:mint, :update, :destroy]
 
   def mint
+    if APP_CONFIG["naan"].nil? or APP_CONFIG["naan"].empty?
+      return api_error(status: 500, errors: 'Missing NAAN in server configuration')
+    end
+
     minter = Noid::Minter.new(read_state(params[:prefix]))
     id = "ark:/" + APP_CONFIG["naan"] + "/" + minter.mint
     write_state minter.dump
@@ -70,14 +74,14 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
 
     render(
-      json: Api::V1::ArkSerializer.new(ark), 
+      json: Api::V1::ArkSerializer.new(ark),
       status: 200,
       location: api_v1_ark_path(params[:id])
     )
   end
 
   def destroy
-    ark = Ark.find_by(identifier: params[:id])
+    ark = Ark.find_by(identifier: params[:id]) or return not_found
 
     if !ark.destroy
       return api_error(status: 500)
