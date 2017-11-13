@@ -48,16 +48,19 @@ class Api::V1::ArksController < Api::V1::BaseController
     id = "ark:/" + APP_CONFIG["naan"] + "/" + minter.mint
     write_state minter.dump
 
+    logger.debug("Minted id #{id}")
+
     ark = Ark.new({ :identifier => id })
     if request.post?
       ark.update_attributes(ark_params)
     end
-    
-    if ark.save
-      render(json: { id: id }.to_json)
-    else
-      api_error(status: 500, errors: 'Unable to save new identifier' )
+
+    begin
+      ark.save!
+    rescue ActiveRecord::RecordInvalid => e
+      return api_error(status: 500, errors: "Unable to save new identifier: #{e}")
     end
+    render(json: { id: id }.to_json)
   end
 
   def show
@@ -97,21 +100,46 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
 
     def read_state(prefix = '')
-      begin
-        fp = File.open(APP_CONFIG["noid_state_file"] + '_' + prefix.to_s, 'a+b', 0644)
-        state = Marshal.load(fp.read)
-      rescue TypeError, ArgumentError
-        state = { template: prefix.to_s + APP_CONFIG["noid_template"] }
+
+      filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
+
+      while File.exists? filename + '.lock'
+        sleep(1)
       end
-      fp.close
+
+      fplock = File.open(filename + '.lock', 'wb')
+      fplock.write("locked")
+      fplock.close
+
+      begin
+        fp = File.open(filename, 'rb', 0644)
+        state = Marshal.load(fp.read)
+        fp.close
+      rescue => e
+        logger.warn "Unable to read state file: #{e}"
+        state = { template: prefix.to_s + APP_CONFIG["noid_template"] }
+      rescue Exception => e
+        logger.warn "Unable to read state file: #{e}"
+      end
+
       return state
     end
 
     def write_state(state)
       prefix = /(.*)\.[rszedk]+/.match(state[:template])[1]
-      fp = File.open(APP_CONFIG["noid_state_file"] + '_' + prefix.to_s, 'wb', 0644)
-      fp.write(Marshal.dump(state))
-      fp.close
+
+      filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
+      begin
+        fp = File.open(filename, 'wb', 0644)
+        fp.write(Marshal.dump(state))
+        fp.close
+      rescue Exception => e
+        logger.warn "Unable to save state file: #{e}"
+      end
+      begin
+        File.delete filename + '.lock' if File.exists? filename + '.lock'
+      rescue Exception
+      end
     end
 
 end
