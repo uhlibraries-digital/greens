@@ -103,8 +103,9 @@ class Api::V1::ArksController < Api::V1::BaseController
 
       filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
 
+      randomsleep = rand(15) / 10.0 + 1
       while File.exists? filename + '.lock'
-        sleep(1)
+        sleep(randomsleep)
       end
 
       fplock = File.open(filename + '.lock', 'wb')
