@@ -103,13 +103,13 @@ class Api::V1::ArksController < Api::V1::BaseController
 
       filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
 
-      randomsleep = rand(15) / 10.0 + 1
-      while File.exists? filename + '.lock'
+      randomsleep = rand(15) / 10.0
+      begin
         sleep(randomsleep)
-      end
+      end while File.exists? filename + '.lock'
 
       fplock = File.open(filename + '.lock', 'wb')
-      fplock.write("locked")
+      fplock.write(Time.now.to_i)
       fplock.close
 
       begin
