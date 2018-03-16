@@ -40,13 +40,19 @@ class Api::V1::ArksController < Api::V1::BaseController
   before_action :authenticate_request!, only: [:mint, :update, :destroy]
 
   def mint
-    if APP_CONFIG["naan"].nil? or APP_CONFIG["naan"].empty?
+    if Settings.naan.nil? or Settings.naan.empty?
       return api_error(status: 500, errors: 'Missing NAAN in server configuration')
     end
 
-    minter = Noid::Minter.new(read_state(params[:prefix]))
-    id = "ark:/" + APP_CONFIG["naan"] + "/" + minter.mint
-    write_state minter.dump
+    sleep(rand(15) / 10.0) while WithLocking.locked?("minting")
+
+    id = ''
+    WithLocking.run(name: "minting") do
+      minter = Noid::Minter.new(read_state(params[:prefix]))
+      id = "ark:/" + Settings.naan + "/" + minter.mint
+      write_state minter.dump
+    end
+    api_error(status: 500, errors: "Unable to mint new ark") if id.blank?
 
     logger.debug("Minted id #{id}")
 
@@ -100,25 +106,12 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
 
     def read_state(prefix = '')
-
-      filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
-
-      randomsleep = rand(15) / 10.0
       begin
-        sleep(randomsleep)
-      end while File.exists? filename + '.lock'
-
-      fplock = File.open(filename + '.lock', 'wb')
-      fplock.write(Time.now.to_i)
-      fplock.close
-
-      begin
-        fp = File.open(filename, 'rb', 0644)
-        state = Marshal.load(fp.read)
-        fp.close
+        ms = MinterState.where(prefix: prefix.to_s)
+        state = Marshal.load(ms.state)
       rescue => e
         logger.warn "Unable to read state file: #{e}"
-        state = { template: prefix.to_s + APP_CONFIG["noid_template"] }
+        state = { template: prefix.to_s + Settings.noid_template }
       rescue Exception => e
         logger.warn "Unable to read state file: #{e}"
       end
@@ -129,17 +122,14 @@ class Api::V1::ArksController < Api::V1::BaseController
     def write_state(state)
       prefix = /(.*)\.[rszedk]+/.match(state[:template])[1]
 
-      filename = APP_CONFIG["noid_state_file"] + '_' + prefix.to_s
       begin
-        fp = File.open(filename, 'wb', 0644)
-        fp.write(Marshal.dump(state))
-        fp.close
-      rescue Exception => e
-        logger.warn "Unable to save state file: #{e}"
-      end
-      begin
-        File.delete filename + '.lock' if File.exists? filename + '.lock'
-      rescue Exception
+        ms = MinterState.where(prefix: prefix.to_s).first_or_create do |ms|
+          ms.template = state[:template]
+        end
+        ms.state = Marshal.dump(state)
+        ms.save
+      rescue ActiveRecord::RecordInvalid => e
+        logger.warn "Unable to save state: #{e}"
       end
     end
 

@@ -8,7 +8,7 @@ gem 'active_model_serializers', '~> 0.9.0'
 gem 'mysql2'
 gem 'will_paginate'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.7.1'
+gem 'rails', '~> 5.0.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -51,3 +51,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
+gem 'config'
+gem 'with_locking'

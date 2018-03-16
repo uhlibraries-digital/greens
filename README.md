@@ -7,21 +7,37 @@ Greens is a rails application that is used as a ARK minter and resolver
 
 ## Installation
 
-Install Ruby 2.1 or higher and Rails 4.2 or higher
+Install Ruby 2.4.1 or higher and Rails 5.0 or higher
 
 Copy the appropriate `database.yml` file for your setup. For SQLite3, `cp config/database.yml.sqlite3 config/database.yml`. For MySQL, `cp config/database.yml.mysql config/database.yml`. Update the file to match your configuation.
 
-Copy the `app.yml` file, `cp config/app.yml.sample config/app.yml`. Update the file with your configuration setup.
+Greens uses the [config](https://github.com/railsconfig/config) gem for application settings. Update the `config/settings.yml` file with your configuration setup. You can also update the environment files in `config/settings/` to overwrite the default settings.
 
 Install gems and build the app
 
 ```bash
 gem install bundler
 bundle install
-rake db:migrate
+rake db:setup
 ```
 
 Once setup you can continue to run the rails server according to your system environment.
+
+## Upgrade
+
+If you are upgrading from a previous version of Greens
+
+1. Upgrade to Ruby 2.4.1 or later
+2. cd into your greens installation
+3. Run `git pull` if you cloned from the repository
+4. `bundle install`
+5. `rake db:migrate`
+6. `rake greens:migrate`
+7. Copy your default environment settings from `config/app.yml` into `config/settings.yml`
+8. Rename `api-key` to `apikey` in `config/settings.yml`
+9. Remove `noid_state_file` setting in `config/settings.yml`
+10. If you have additional environment variables in `app.yml` you can place those settings in the appropriate `config/settings/` location.
+11. Delete `config/app.yml` file
 
 ## Usage
 
@@ -43,7 +59,7 @@ To authenticate with these API calls, you will need to provide a application key
 api-key: Dh7KgcDfUMeRmivTdSh1VY2i79qyigofckCiAivwjti89eAwkaKmPU0FH6NIs74
 ```
 
-HTTP status code returned by a successfull API will usually be 200 OK. All successfull responses will return a JSON-encoded string.
+HTTP status code returned by a successful API will usually be 200 OK. All successful responses will return a JSON-encoded string.
 
 #### Mint
 
@@ -61,7 +77,7 @@ Returns the minted ark identifier. /prefix is optional and allows every minted i
 
 | Parameter | Description |
 | --------- | ----------- |
-| who | The name of the entity (person, organization, or service) responsible for creating the content or making it available. | 
+| who | The name of the entity (person, organization, or service) responsible for creating the content or making it available. |
 | what | A name or other human-oriented identifier given to the resource. |
 | when | A point or period of time important to the lifecycle of the resource. |
 | where | The identifier's target URL or location. |
@@ -76,7 +92,7 @@ Returns the updated object erc
 
 | Parameter | Description |
 | --------- | ----------- |
-| who | The name of the entity (person, organization, or service) responsible for creating the content or making it available. | 
+| who | The name of the entity (person, organization, or service) responsible for creating the content or making it available. |
 | what | A name or other human-oriented identifier given to the resource. |
 | when | A point or period of time important to the lifecycle of the resource. |
 | where | The identifier's target URL or location. |

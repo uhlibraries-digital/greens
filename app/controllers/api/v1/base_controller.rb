@@ -37,11 +37,9 @@ class Api::V1::BaseController < ApplicationController
   end
 
   def authenticate_request!
-    return unauthorized! if !request.headers.key?('HTTP_API_KEY') or !APP_CONFIG.key?('api-key')
+    return unauthorized! if request.headers['HTTP_API_KEY'].blank? or Settings.apikey.blank?
 
-    return unauthorized! if request.headers['HTTP_API_KEY'].blank? or APP_CONFIG['api-key'].blank?
-
-    return unauthorized! if request.headers['HTTP_API_KEY'] != APP_CONFIG['api-key']
+    return unauthorized! if request.headers['HTTP_API_KEY'] != Settings.apikey
   end
 
   def unauthorized!
