@@ -49,7 +49,9 @@ class Api::V1::ArksController < Api::V1::BaseController
     id = ''
     WithLocking.run(name: "minting") do
       minter = Noid::Minter.new(read_state(params[:prefix]))
-      id = "ark:/" + Settings.naan + "/" + minter.mint
+      begin
+        id = "ark:/" + Settings.naan + "/" + minter.mint
+      end until not Ark.exists?(:identifier => id)
       write_state minter.dump
     end
     api_error(status: 500, errors: "Unable to mint new ark") if id.blank?
@@ -107,7 +109,7 @@ class Api::V1::ArksController < Api::V1::BaseController
 
     def read_state(prefix = '')
       begin
-        ms = MinterState.where(prefix: prefix.to_s)
+        ms = MinterState.find_by(prefix: prefix.to_s)
         state = Marshal.load(ms.state)
       rescue => e
         logger.warn "Unable to read state file: #{e}"
