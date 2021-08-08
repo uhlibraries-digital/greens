@@ -21,6 +21,22 @@ rake db:setup
 
 Once setup you can continue to run the rails server according to your system environment.
 
+## Docker
+
+You can run the full stack using docker locally.
+
+Run the db:migrate for initial setup
+
+```
+docker-compose run --rm app rake db:migrate
+```
+
+This command starts the stack.
+
+```
+docker-compose up app
+```
+
 ## Upgrade
 
 If you are upgrading from a previous version of Greens
