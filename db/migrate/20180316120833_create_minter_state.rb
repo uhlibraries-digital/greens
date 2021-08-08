@@ -1,4 +1,4 @@
-class CreateMinterState < ActiveRecord::Migration[5.0]
+class CreateMinterState < ActiveRecord::Migration[5.1]
   def change
     create_table :minter_states do |t|
       t.string :prefix, null: false

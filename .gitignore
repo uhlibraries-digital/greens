@@ -13,18 +13,11 @@
 /db/*.sqlite3-journal
 
 /db/schema.rb
-Gemfile.lock
 
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
 /tmp
-
-# Ignore application configuration file.
-/config/app.yml
-
-# Ignore database configuration file.
-/config/database.yml
 
 config/settings.local.yml
 config/settings/*.local.yml

@@ -5,11 +5,9 @@
 
 Greens is a rails application that is used as a ARK minter and resolver
 
-## Installation
+## Mainual Installation
 
-Install Ruby 2.4.1 or higher and Rails 5.0 or higher
-
-Copy the appropriate `database.yml` file for your setup. For SQLite3, `cp config/database.yml.sqlite3 config/database.yml`. For MySQL, `cp config/database.yml.mysql config/database.yml`. Update the file to match your configuation.
+Install Ruby 2.5
 
 Greens uses the [config](https://github.com/railsconfig/config) gem for application settings. Update the `config/settings.yml` file with your configuration setup. You can also update the environment files in `config/settings/` to overwrite the default settings.
 
@@ -27,7 +25,7 @@ Once setup you can continue to run the rails server according to your system env
 
 If you are upgrading from a previous version of Greens
 
-1. Upgrade to Ruby 2.4.1 or later
+1. Upgrade to Ruby 2.5 or later
 2. cd into your greens installation
 3. Run `git pull` if you cloned from the repository
 4. `bundle install`
