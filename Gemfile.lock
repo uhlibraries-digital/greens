@@ -123,7 +123,8 @@ GEM
     noid (0.9.0)
     nokogiri (1.12.2-x86_64-linux)
       racc (~> 1.4)
-    puma (3.12.6)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -202,7 +203,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mysql2
   noid
-  puma (~> 3.7)
+  puma (~> 4.3)
   rails (~> 5.1.6)
   sdoc (~> 0.4.0)
   spring
