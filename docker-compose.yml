@@ -17,9 +17,7 @@ services:
   db:
     image: mysql:5.7
     restart: always
-    env_file: .env
-    environment: 
-      - MYSQL_ROOT_PASSWORD=my-secret-password
+    env_file: .env-db
     volumes:
       - db:/var/lib/mysql
 
