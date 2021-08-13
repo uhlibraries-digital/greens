@@ -41,4 +41,30 @@ namespace :greens do
     end
 
   end
+
+  desc "Insert noid state file into the database"
+  task :insert => :environment do
+    file = ARGV[1]
+    if !File.exist? file
+      puts "File can't be found"
+      next
+    end
+
+    fp = File.open(file, 'rb', 0644)
+    state = Marshal.load(fp.read)
+    fp.close
+
+    prefix = /(.*)\.[rszedk]+/.match(state[:template])[1]
+    if MinterState.exists?(:prefix => prefix)
+      puts "Noid state with prefix '#{prefix}' already exists, doing nothing"
+    else
+      puts "Adding noid state with prefix '#{prefix}'"
+      MinterState.create({
+        :prefix => prefix.to_s,
+        :template => state[:template],
+        :state => Marshal.dump(state)
+      })
+    end
+  end
+
 end
