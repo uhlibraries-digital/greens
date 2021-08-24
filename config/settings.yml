@@ -1,3 +1,3 @@
-noid_template: ".rddddeeddk"
+noid_template: "<%= ENV['NOID_TEMPLATE'] %>"
 naan: "<%= ENV['NAAN'] %>"
 apikey: "<%= ENV['API_KEY'] %>"
