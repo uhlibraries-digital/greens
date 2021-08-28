@@ -36,6 +36,9 @@
 #     Request Header: api-key
 #     Status Code: 204
 #
+
+require 'locking'
+
 class Api::V1::ArksController < Api::V1::BaseController
   before_action :authenticate_request!, only: [:mint, :update, :destroy]
 
@@ -44,31 +47,35 @@ class Api::V1::ArksController < Api::V1::BaseController
       return api_error(status: 500, errors: 'Missing NAAN in server configuration')
     end
 
-    sleep(rand(15) / 10.0) while WithLocking.locked?("minting")
+    if Locking.locked?("minting-#{params[:prefix]}")
+      api_error(status: 500, errors: "Minting currently locked, try again later")
+    end
 
     id = ''
-    WithLocking.run(name: "minting") do
+    Locking.run("minting-#{params[:prefix]}") do
+      logger.debug("Minting ark...")
       minter = Noid::Minter.new(read_state(params[:prefix]))
-      begin
-        id = "ark:/" + Settings.naan + "/" + minter.mint
-      end until not Ark.exists?(:identifier => id)
+      id = "ark:/" + Settings.naan + "/" + minter.mint
       write_state minter.dump
-    end
-    api_error(status: 500, errors: "Unable to mint new ark") if id.blank?
 
-    logger.debug("Minted id #{id}")
+      api_error(status: 500, errors: "Unable to mint new ark") if id.blank?
 
-    ark = Ark.new({ :identifier => id })
-    if request.post?
-      ark.update_attributes(ark_params)
-    end
+      logger.debug("Minted id #{id}")
 
-    begin
-      ark.save!
-    rescue ActiveRecord::RecordInvalid => e
-      return api_error(status: 500, errors: "Unable to save new identifier: #{e}")
+      ark = Ark.new({ :identifier => id })
+      if request.post?
+        ark.update_attributes(ark_params)
+      end
+
+      begin
+        ark.save!
+      rescue ActiveRecord::RecordInvalid => e
+        return api_error(status: 500, errors: "Unable to save new identifier: #{e}")
+      rescue ActiveRecord::RecordNotUnique
+        return api_error(status: 500, errors: "System tried to mint exising ark, try again")
+      end
+      render(json: { id: id }.to_json)
     end
-    render(json: { id: id }.to_json)
   end
 
   def show
@@ -129,7 +136,7 @@ class Api::V1::ArksController < Api::V1::BaseController
           ms.template = state[:template]
         end
         ms.state = Marshal.dump(state)
-        ms.save
+        ms.save!
       rescue ActiveRecord::RecordInvalid => e
         logger.warn "Unable to save state: #{e}"
       end
