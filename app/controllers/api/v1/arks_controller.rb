@@ -48,14 +48,14 @@ class Api::V1::ArksController < Api::V1::BaseController
     end
 
     if Locking.locked?("minting-#{params[:prefix]}")
-      api_error(status: 500, errors: "Minting currently locked, try again later")
+      api_error(status: 500, errors: "Minting currently locked with prefix: #{params[:prefix]}, try again later")
     end
 
     id = ''
     Locking.run("minting-#{params[:prefix]}") do
       logger.debug("Minting ark...")
       minter = Noid::Minter.new(read_state(params[:prefix]))
-      id = "ark:/" + Settings.naan + "/" + minter.mint
+      id = "ark:/#{Settings.naan}/#{minter.mint}"
       write_state minter.dump
 
       api_error(status: 500, errors: "Unable to mint new ark") if id.blank?
