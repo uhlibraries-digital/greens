@@ -1,0 +1,38 @@
+<div class="row search-results-form">
+  <%= render 'shared/search_form' %>
+</div>
+<div class="row record-padding">
+  <%= will_paginate @ark %>
+</div>
+<div class="row search-results">
+  <table class="table table-bordered striped">
+    <thead>
+      <tr>
+        <th>Identifier</th>
+        <th>ERC</th>
+        <th>Created</th>
+        <th>Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ark.each do | a | %>
+        <tr>
+          <td><a href="/<%= a.identifier %>?"><%= a.identifier %></a></td>
+          <td>
+            <ul class="erc">
+              <li>what: <%= a.what %></li>
+              <li>who: <%= a.who %></li>
+              <li>when: <%= a.when %></li>
+              <li>where: <%= link_to a.where, a.where if !a.where.blank? %></li> 
+            </ul>
+          </td>
+          <td><%= a.created_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
+          <td><%= a.updated_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="row record-padding">
+  <%= will_paginate @ark %>
+</div>

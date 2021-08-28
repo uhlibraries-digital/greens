@@ -40,11 +40,6 @@
   background: #f5f5f5;
   border: 1px solid #ccc;
 
-  button[type=submit] {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
   ul.search-links {
     font: bold 1rem 'Milo', sans-serif;
     line-height: 3rem;
@@ -70,7 +65,26 @@
   }
 }
 
+.search-form {
+  button[type=submit] {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
 #search-q {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.search-results-form {
+  margin: 20px 0;
+}
+
+.search-results {
+  .erc {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 }
