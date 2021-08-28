@@ -211,7 +211,9 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.3.0)
+    will_paginate (3.3.1)
+    will_paginate-bootstrap4 (0.2.2)
+      will_paginate (~> 3.0, >= 3.0.0)
 
 PLATFORMS
   x86_64-linux
@@ -236,7 +238,7 @@ DEPENDENCIES
   sqlite3
   turbolinks (~> 5)
   web-console (>= 3.3.0)
-  will_paginate
+  will_paginate-bootstrap4
 
 BUNDLED WITH
    2.2.26

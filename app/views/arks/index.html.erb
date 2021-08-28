@@ -1,22 +1,28 @@
-<%= will_paginate @ark %>
-<table width="100%">
-  <thead>
-    <tr>
-      <th>Identifier</th>
-      <th>Where</th>
-      <th>Created</th>
-      <th>Updated</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @ark.each do | a | %>
-    <tr>
-      <td><a href="/<%= a.identifier %>?"><%= a.identifier %></a></td>
-      <td><%= link_to a.where, a.where if !a.where.blank? %></td>
-      <td align="center"><%= a.created_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
-      <td align="center"><%= a.updated_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= will_paginate @ark %>
+<div class="row record-padding">
+  <%= will_paginate @ark %>
+</div>
+<div class="row">
+  <table class="table table-bordered striped">
+    <thead>
+      <tr>
+        <th>Identifier</th>
+        <th>Where</th>
+        <th>Created</th>
+        <th>Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ark.each do | a | %>
+      <tr>
+        <td><a href="/<%= a.identifier %>?"><%= a.identifier %></a></td>
+        <td><%= link_to a.where, a.where if !a.where.blank? %></td>
+        <td><%= a.created_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
+        <td><%= a.updated_at.strftime("%-m-%d-%Y %H:%M:%S") %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="row record-padding">
+  <%= will_paginate @ark %>
+</div>

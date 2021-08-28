@@ -50,7 +50,7 @@ group :development do
 end
 
 gem 'mysql2'
-gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
 gem 'config'
 gem 'noid'
 gem 'kaminari'
