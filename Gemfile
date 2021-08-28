@@ -52,7 +52,6 @@ end
 gem 'mysql2'
 gem 'will_paginate'
 gem 'config'
-gem 'with_locking'
 gem 'noid'
 gem 'kaminari'
 gem 'active_model_serializers', '~> 0.9.0'
