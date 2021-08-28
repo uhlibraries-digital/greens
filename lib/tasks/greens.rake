@@ -67,4 +67,9 @@ namespace :greens do
     end
   end
 
+  desc "Clear all minting locks"
+  task :clear_locks => :environment do
+    Lock.delete_all
+  end
+
 end
