@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'arks' => 'arks#index'
   get 'ids' => 'arks#index'
+  get 'search' => 'arks#search'
   match '(:id)' => 'arks#show', :constraints => { :id => /ark:\/.*/ }, via: :get, as: "ark_show"
 
   namespace :api do
