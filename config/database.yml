@@ -20,4 +20,4 @@ test:
 
 production:
   <<: *default
-  database: greens_production
+  database: <%= ENV['DATABASE_NAME'] %>
