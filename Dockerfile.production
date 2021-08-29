@@ -18,7 +18,13 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN gem install bundler && bundle install
 ADD . /greens-app/
 
-RUN RAILS_ENV=production SECRET_KEY_BASE=`rake secret` DATABASE_URL='nulldb://fake' bundle exec rake assets:precompile
+RUN RAILS_ENV=production SECRET_KEY_BASE=no DATABASE_URL='nulldb://fake' bundle exec rake assets:precompile
+
+ENV RAILS_ENV=production \
+    RAILS_SERVE_STATIC_FILES=true \
+    RAILS_CACHE_STORE_URL=memcache \
+    RAILS_LOG_TO_STDOUT=true
+
 
 EXPOSE 3000
 HEALTHCHECK CMD curl --fail http://localhost:3000/ || exit 1
