@@ -31,7 +31,7 @@ class ArksController < ApplicationController
   end
 
   def search
-    @ark = Ark.where("what LIKE :search OR who LIKE :search OR `where` LIKE :search OR `when` LIKE :search", search: "%#{params[:q]}%")
+    @ark = Ark.where("identifier LIKE :search OR what LIKE :search OR who LIKE :search OR `where` LIKE :search OR `when` LIKE :search", search: "%#{params[:q]}%")
       .order('what')
       .paginate(:page => params[:page], :per_page => 100)
   end
