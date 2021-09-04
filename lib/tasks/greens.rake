@@ -45,9 +45,20 @@ namespace :greens do
   desc "Insert noid state file into the database"
   task :insert => :environment do
     file = ARGV[1]
-    if !File.exist? file
-      puts "File can't be found"
-      next
+    if file.blank?
+      if STDIN.tty?
+        puts "Please include a noid file"
+        next
+      end
+      tmp = Tempfile.new('tmp_noid-', Rails.root.join('tmp'))
+      tmp.write(STDIN.read)
+      tmp.close
+      file = tmp.path
+    else
+      if !File.exist? file
+        puts "File can't be found"
+        next
+      end
     end
 
     fp = File.open(file, 'rb', 0644)
