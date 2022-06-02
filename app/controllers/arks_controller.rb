@@ -12,7 +12,7 @@ class ArksController < ApplicationController
 
     @ark = Ark.find_by(identifier: id) or not_found
 
-    if !@ark.where.nil? and url_valid?(@ark.where) and env["REQUEST_URI"][-2, 2] != '??' and env["REQUEST_URI"][-1, 1] != '?'
+    if !@ark.where.nil? and url_valid?(@ark.where) and request.env["REQUEST_URI"][-2, 2] != '??' and request.env["REQUEST_URI"][-1, 1] != '?'
       if !@ark.where.match(/^.*[\?=&\/]$/).nil?
         suffix.slice!(0)
       end
