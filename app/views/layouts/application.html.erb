@@ -3,6 +3,7 @@
 <head>
   <title>ARK Service</title>
   <%= stylesheet_link_tag "application", media: "all" %>
+  <%= stylesheet_link_tag 'https://apps.lib.uh.edu/uh-elements/libraries-branding.css' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag %>
@@ -13,6 +14,7 @@
 <div id="content-wrapper" class="container standard" role="main">
   <%= yield %>
 </div>
+<%= render 'shared/footer' %>
 
 </body>
 </html>

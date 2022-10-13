@@ -34,6 +34,10 @@ h3 {
   color: $red;
 }
 
+.container {
+  margin-bottom: 30px;
+}
+
 /* BUTTONS */
 .btn-primary,
 .btn-primary:focus,
@@ -436,6 +440,13 @@ textarea {
 }
 
 /* FOOTER */
+footer {
+  &.homepage {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
 .footer {
   margin-top: 30px;
 
