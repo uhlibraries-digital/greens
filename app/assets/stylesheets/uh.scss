@@ -6,6 +6,8 @@ html {
 
 body {
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -36,6 +38,7 @@ h3 {
 
 .container {
   margin-bottom: 30px;
+  flex: 1;
 }
 
 /* BUTTONS */
@@ -440,13 +443,6 @@ textarea {
 }
 
 /* FOOTER */
-footer {
-  &.homepage {
-    position: absolute;
-    bottom: 0;
-  }
-}
-
 .footer {
   margin-top: 30px;
 
