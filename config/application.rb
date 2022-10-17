@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module Greens
-  VERSION = '2.2.3'
+  VERSION = '2.3.0'
   class Application < Rails::Application
   end
 end

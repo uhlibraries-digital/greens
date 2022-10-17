@@ -6,6 +6,8 @@ html {
 
 body {
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -32,6 +34,11 @@ h3 {
 
 .breadcrumb * a {
   color: $red;
+}
+
+.container {
+  margin-bottom: 30px;
+  flex: 1;
 }
 
 /* BUTTONS */
